@@ -9,7 +9,14 @@ const WEATHERAPI_KEY = process.env.WEATHERAPI_KEY;
 app.set("trust proxy", true);
 
 app.get("/api/hello", async (req, res) => {
-  const visitorName = req.query.visitor_name || "Guest";
+  let visitorName = req.query.visitor_name || "Guest";
+
+  // Log the visitor name to ensure it's being received correctly
+  console.log(`Received visitor name: ${visitorName}`);
+
+  // Remove double and single quotes from visitorName
+  visitorName = visitorName.replace(/['"]/g, "");
+
   let clientIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
   // Handle IPv6 prefix
